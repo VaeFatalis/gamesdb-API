@@ -1,0 +1,156 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Game`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`Game` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `title` VARCHAR(45) NULL ,
+  `platform` SET('PS3','Nintendo Wii', '360', 'PC', 'Mac', 'Linux', 'Nintendo Entertainment System (NES)', 'SNES', 'GCN', 'N64', 'PS1', 'Sony Playstation 2') NULL ,
+  `year` YEAR NULL ,
+  `esrb` SET('eC for Early Childhood', 'E - Everyone', 'E10+ - Everyone 10+', 'T - Teen', 'M - Mature', 'Ao for Adults Only') NULL ,
+  `genre` SET('Action', 'Adventure', 'Construction and Management Simulation','FPS', 'Horror', 'MMO', 'Music','Multiplayer', 'Platformer', 'Puzzle', 'Racing', 'RTS', 'Role-Playing', 'Shooter', 'Simulation', 'Sandbox', 'Sports', 'Strategy') NULL ,
+  `publisher` VARCHAR(45) NULL ,
+  `developer` VARCHAR(45) NULL ,
+  `description` VARCHAR(1000) NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`User`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`User` (
+  `userID` INT NOT NULL AUTO_INCREMENT ,
+  `email` VARCHAR(45) NULL ,
+  `password` VARCHAR(45) NULL ,
+  `username` VARCHAR(45) NULL ,
+  `birthdate` DATE NULL ,
+  `avatarURL` VARCHAR(45) NULL ,
+  PRIMARY KEY (`userID`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Library`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`Library` (
+  `idLibrary` INT NOT NULL AUTO_INCREMENT ,
+  `userID` INT NOT NULL ,
+  `gameID` INT NOT NULL ,
+  `rating` INT NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`idLibrary`) ,
+  INDEX `fk_Library_User1` (`userID` ASC) ,
+  INDEX `fk_Library_Game1` (`gameID` ASC) ,
+  CONSTRAINT `fk_Library_User1`
+    FOREIGN KEY (`userID` )
+    REFERENCES `mydb`.`User` (`userID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Library_Game1`
+    FOREIGN KEY (`gameID` )
+    REFERENCES `mydb`.`Game` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Friends`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`Friends` (
+  `idFriends` INT NOT NULL AUTO_INCREMENT ,
+  `userIDa` INT NOT NULL ,
+  `userIDb` INT NOT NULL ,
+  PRIMARY KEY (`idFriends`) ,
+  INDEX `fk_Friends_User1` (`userIDa` ASC) ,
+  INDEX `fk_Friends_User2` (`userIDb` ASC) ,
+  CONSTRAINT `fk_Friends_User1`
+    FOREIGN KEY (`userIDa` )
+    REFERENCES `mydb`.`User` (`userID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Friends_User2`
+    FOREIGN KEY (`userIDb` )
+    REFERENCES `mydb`.`User` (`userID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Library_has_User`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`Library_has_User` (
+  `Library_idLibrary` INT NOT NULL ,
+  `User_userID` INT NOT NULL ,
+  PRIMARY KEY (`Library_idLibrary`, `User_userID`) ,
+  INDEX `fk_Library_has_User_User1` (`User_userID` ASC) ,
+  INDEX `fk_Library_has_User_Library` (`Library_idLibrary` ASC) ,
+  CONSTRAINT `fk_Library_has_User_Library`
+    FOREIGN KEY (`Library_idLibrary` )
+    REFERENCES `mydb`.`Library` (`idLibrary` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Library_has_User_User1`
+    FOREIGN KEY (`User_userID` )
+    REFERENCES `mydb`.`User` (`userID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`Game`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`Game` (`id`, `title`, `platform`, `year`, `esrb`, `genre`, `publisher`, `developer`, `description`) VALUES (1, 'Super Mario Bros', 'NES', 1985, 'E for Everyone', 'Platformer', 'Nintendo LTD', 'Nintendo LTD', 'Mario hit blocks with his head to get the princess');
+INSERT INTO `mydb`.`Game` (`id`, `title`, `platform`, `year`, `esrb`, `genre`, `publisher`, `developer`, `description`) VALUES (2, 'The Legend of Zelda', 'NES', 1986, 'E for Everyone', 'Action, RPG', 'Nintendo LTD', 'Nintendo LTD', 'Link must save the princess from the evil Gerudo King, Gannon.');
+INSERT INTO `mydb`.`Game` (`id`, `title`, `platform`, `year`, `esrb`, `genre`, `publisher`, `developer`, `description`) VALUES (3, 'Metroid', 'NES', 1987, 'E for Everyone', 'Platformer', 'Nintendo LTD', 'Nintendo LTD', 'Play as Samus and save the universe from Mother Brain');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`User`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`User` (`userID`, `email`, `password`, `username`, `birthdate`, `avatarURL`) VALUES (NULL, 'andrew.strader552@topper.wku.edu', 'XRQ3962', 'Strader', '1988-01-27', 'http://i.imgur.com/NYrKV.gif');
+INSERT INTO `mydb`.`User` (`userID`, `email`, `password`, `username`, `birthdate`, `avatarURL`) VALUES (NULL, 'andrew.kenady380@topper.wku.edu', 'EJG2793', 'Kenady', '1993-08-05', 'http://i.imgur.com/NYrKV.gif');
+INSERT INTO `mydb`.`User` (`userID`, `email`, `password`, `username`, `birthdate`, `avatarURL`) VALUES (NULL, 'michael.bryant673@topper.wku.edu', 'GKE6095', 'Marlo', '1991-07-29', 'http://i.imgur.com/NYrKV.gif');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`Library`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`Library` (`idLibrary`, `userID`, `gameID`, `rating`) VALUES (1, 1, 1, 4);
+INSERT INTO `mydb`.`Library` (`idLibrary`, `userID`, `gameID`, `rating`) VALUES (2, 1, 2, 5);
+INSERT INTO `mydb`.`Library` (`idLibrary`, `userID`, `gameID`, `rating`) VALUES (3, 1, 3, 3);
+INSERT INTO `mydb`.`Library` (`idLibrary`, `userID`, `gameID`, `rating`) VALUES (4, 2, 2, 4);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `mydb`.`Friends`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `mydb`.`Friends` (`idFriends`, `userIDa`, `userIDb`) VALUES (NULL, 1, 2);
+INSERT INTO `mydb`.`Friends` (`idFriends`, `userIDa`, `userIDb`) VALUES (NULL, 2, 3);
+INSERT INTO `mydb`.`Friends` (`idFriends`, `userIDa`, `userIDb`) VALUES (NULL, 3, 1);
+
+COMMIT;

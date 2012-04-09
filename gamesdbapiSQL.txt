@@ -10,14 +10,14 @@ USE `mydb` ;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `mydb`.`Game` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `title` VARCHAR(45) NULL ,
-  `platform` SET('PS3','Nintendo Wii', '360', 'PC', 'Mac', 'Linux', 'Nintendo Entertainment System (NES)', 'SNES', 'GCN', 'N64', 'PS1', 'Sony Playstation 2') NULL ,
+  `title` VARCHAR(75) NULL ,
+  `platform` SET('3DO', 'Amiga', 'Arcade', 'Atari 2600', 'Atari 5200','Atari 7800', 'Atari Jaguar','Atari Jaguar CD','Atari XE', 'Colecovision', 'Commodore 64', 'Intellivision', 'Linux','Mac OS', 'NeoGeo', 'Nintendo 64','Nintendo Game Boy', 'Nintendo Game Boy Advance', 'Nintendo Game Boy Color', 'Nintendo GameCube', 'Nintendo DS', 'Nintendo Entertainment System (NES)', 'Nintendo Wii','Nintendo Wii U', 'Microsoft Xbox', 'Microsoft Xbox 360', 'PC', 'Sega Dreamcast', 'Sega Master System', 'Sega Genesis', 'Sega Mega Drive', 'Sega CD', 'Sega Saturn', 'Sega 32X', 'Sega Game Gear', 'Sony Playstation', 'Sony Playstation 2', 'Sony Playstation 3','Sony Playstation Vita', 'Sony PSP', 'Super Nintendo (SNES)', 'TurboGrafx 16', 'null') NULL ,
   `year` YEAR NULL ,
-  `esrb` SET('eC for Early Childhood', 'E - Everyone', 'E10+ - Everyone 10+', 'T - Teen', 'M - Mature', 'Ao for Adults Only') NULL ,
-  `genre` SET('Action', 'Adventure', 'Construction and Management Simulation','FPS', 'Horror', 'MMO', 'Music','Multiplayer', 'Platformer', 'Puzzle', 'Racing', 'RTS', 'Role-Playing', 'Shooter', 'Simulation', 'Sandbox', 'Sports', 'Strategy') NULL ,
-  `publisher` VARCHAR(45) NULL ,
-  `developer` VARCHAR(45) NULL ,
-  `description` VARCHAR(1000) NULL ,
+  `esrb` SET('EC - Early Childhood', 'E - Everyone', 'E10+ - Everyone 10+', 'T - Teen', 'M - Mature', 'Ao for Adults Only', 'RP - Rating Pending','null') NULL ,
+  `genre` SET('Action', 'Adventure', 'Construction and Management Simulation', 'Fighting', 'Flight Simulator', 'FPS', 'Horror', 'Life Simulation', 'MMO', 'Music', 'Multiplayer','Platform', 'Platformer', 'Puzzle', 'Racing', 'RTS', 'Role-Playing', 'Shooter', 'Simulation', 'Sandbox', 'Sports', 'Stealth', 'Strategy','Vehicle Simulation', 'null') NULL ,
+  `publisher` VARCHAR(75) NULL ,
+  `developer` VARCHAR(75) NULL ,
+  `description` VARCHAR(10000) NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
